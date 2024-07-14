@@ -1,13 +1,13 @@
 // src/components/Header.js
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../context/CartContext'; // Importa el contexto del carrito
+import { CartContext } from '../context/CartContext'; 
 import styles from './Header.module.css';
 
 const Header = () => {
-  const { cart } = useContext(CartContext); // Usa el contexto del carrito para obtener el carrito
+  const { cart } = useContext(CartContext); 
 
-  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0); // Calcula el número total de artículos en el carrito
+  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0); 
 
   return (
     <header className={styles.header}>

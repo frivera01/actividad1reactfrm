@@ -18,7 +18,8 @@ const App = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    fetch(`${apiUrl}/api/products`)
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);

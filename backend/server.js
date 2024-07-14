@@ -7,19 +7,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS
+const allowedOrigins = ['http://localhost:3000', 'https://https://actividad1reactfrm.vercel.app']; 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: 'GET,POST',
-  allowedHeaders: 'Content-Type' 
+  allowedHeaders: 'Content-Type'
 }));
 
-// Middleware para parsear JSON
 app.use(express.json());
 
-// Middleware para loggear el cuerpo de la solicitud
+
 app.use((req, res, next) => {
-    console.log(req.method, req.url); // Mostrará el método HTTP y la URL de la solicitud entrante
-    console.log('Body:', req.body); // Mostrará el cuerpo de la solicitud como objeto si está parseado correctamente
+    console.log(req.method, req.url); 
+    console.log('Body:', req.body); 
     next();
 });
 
@@ -35,8 +41,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Rutas
 app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/contact', require('./routes/contactRoutes')); // Ruta para contacto
-app.use('/api/orders', require('./routes/orderRoutes')); // Ruta para pedidos
+app.use('/api/contact', require('./routes/contactRoutes')); 
+app.use('/api/orders', require('./routes/orderRoutes')); 
 
 app.listen(PORT, () => {
   console.log(`Servidor está corriendo en el puerto ${PORT}`);

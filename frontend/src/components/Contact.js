@@ -1,3 +1,4 @@
+// src/components/Contact.js
 import React, { useState } from 'react';
 import styles from './Contact.module.css';
 
@@ -10,25 +11,25 @@ function Contact() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('http://localhost:5000/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    if (response.ok) {
-      alert('¡Gracias! Nos pondremos en contacto :)');
-      setFormData({ name: '', email: '', message: '' });
-    } else {
+    e.preventDefault();
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        alert('¡Gracias! Nos pondremos en contacto :)');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert('Error al enviar el mensaje');
+      }
+    } catch (error) {
+      console.error('Error:', error);
       alert('Error al enviar el mensaje');
     }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error al enviar el mensaje');
-  }
-};
-
+  };
 
   return (
     <div className={styles.contact}>
